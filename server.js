@@ -14,9 +14,13 @@ class User {
 var allClients = new Object();
 var myArgs = process.argv.slice(2); //Remove first 2 args
 
-// Make the files in the public folder available to the world
+//static
 app.use(express.static(__dirname + '/public'));
 
+app.get('/',function(req,res){
+	//res.send('<h1>Hello World</h1>');
+	res.sendFile(__dirname + '/public/index.html');
+});
 var PORT = 3000;
 
 if(myArgs.length == 1)
