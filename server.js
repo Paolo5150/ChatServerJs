@@ -14,13 +14,7 @@ class User {
 var allClients = new Object();
 var myArgs = process.argv.slice(2); //Remove first 2 args
 
-//static
-app.use(express.static(__dirname + '/public'));
 
-app.get('/',function(req,res){
-	//res.send('<h1>Hello World</h1>');
-	res.sendFile(__dirname + '/public/index.html');
-});
 var PORT = 3000;
 
 if(myArgs.length == 1)
@@ -32,11 +26,13 @@ PORT = process.env.PORT || PORT;
 console.log("Custom port detected: " + PORT);
 
 io.on('connection', function (client) {
+
+  console.log('SERVER: someone connected')
   
   client.on('disconnect', function () {    
-    console.log('SERVER: client disconnect...', allClients[client.id].username)
-    delete allClients[client.id]
-    console.log('SERVER: Client deleted, total size ' + Object.keys(allClients).length)
+    //console.log('SERVER: client disconnect...', allClients[client.id].username)
+   // delete allClients[client.id]
+   // console.log('SERVER: Client deleted, total size ' + Object.keys(allClients).length)
     
   })
 
