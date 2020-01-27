@@ -21,6 +21,7 @@ if(myArgs.length == 1)
   PORT = myArgs[0];
 }
 
+PORT = process.env.PORT || PORT;
 console.log("Custom port detected: " + PORT);
 
 io.on('connection', function (client) {
