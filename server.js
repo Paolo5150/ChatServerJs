@@ -70,7 +70,7 @@ io.on('connection', function (client) {
   });
 })
 
-server.listen(PORT, function (err) {
+server.listen(process.env.PORT || PORT, function (err) {
   if (err) throw err
   console.log('SERVER: listening on port ' + PORT)
 })
