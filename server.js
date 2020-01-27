@@ -3,6 +3,9 @@ var express = require('express'),
     server = require('http').createServer(app);
     io = require('socket.io').listen(server);
 
+const fileWriter = require('fs');
+const LOG_FILE = "log.txt";
+
 class User {
   constructor(id, username,socket) {
     this.id = id;
@@ -24,15 +27,33 @@ if(myArgs.length == 1)
 
 PORT = process.env.PORT || PORT;
 console.log("Custom port detected: " + PORT);
+fileWriter.writeFile(LOG_FILE, "SERVER: starting on port" + PORT +"\n", function(err) {
+  if(err) {
+      return console.log(err);
+  }
+
+}); 
 
 io.on('connection', function (client) {
 
   console.log('SERVER: someone connected')
+  fileWriter.appendFile(LOG_FILE,'SERVER: someone connected\n', function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+}); 
   
   client.on('disconnect', function () {    
-    //console.log('SERVER: client disconnect...', allClients[client.id].username)
+    console.log('SERVER: client disconnect...')
    // delete allClients[client.id]
    // console.log('SERVER: Client deleted, total size ' + Object.keys(allClients).length)
+   fileWriter.appendFile(LOG_FILE, "SERVER: someone disconnected\n", function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+}); 
     
   })
 
