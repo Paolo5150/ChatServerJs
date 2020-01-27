@@ -1,5 +1,7 @@
-const server = require('http').createServer()
-const io = require('socket.io')(server)
+var express = require('express'),
+    app = express(),
+    server = require('http').createServer(app);
+    io = require('socket.io').listen(server);
 
 class User {
   constructor(id, username,socket) {
