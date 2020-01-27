@@ -27,12 +27,6 @@ if(myArgs.length == 1)
 
 PORT = process.env.PORT || PORT;
 console.log("Custom port detected: " + PORT);
-fileWriter.writeFile(LOG_FILE, "SERVER: starting on port" + PORT +"\n", function(err) {
-  if(err) {
-      return console.log(err);
-  }
-
-}); 
 
 io.on('connection', function (client) {
 
@@ -46,25 +40,14 @@ io.on('connection', function (client) {
   
   client.on('disconnect', function () {    
     console.log('SERVER: client disconnect...')
-   // delete allClients[client.id]
-   // console.log('SERVER: Client deleted, total size ' + Object.keys(allClients).length)
-   fileWriter.appendFile(LOG_FILE, "SERVER: someone disconnected\n", function(err) {
-    if(err) {
-        return console.log(err);
-    }
-
-}); 
-    
+    delete allClients[client.id]
+    console.log('SERVER: Client ' + client.id +' deleted, total size ' + Object.keys(allClients).length)    
   })
 
   client.on('error', function (err) {
     console.log('SERVER: received error from client:', client.id)
     console.log(err)
   })
-
-  client.on('chat-msg', function(msg){
-
-  });
 
   function CheckConnection(arg) {
 
@@ -83,15 +66,10 @@ io.on('connection', function (client) {
     us.socket = client;
     allClients[client.id] = us;    
 
-    console.log('SERVER: Client ' + us.username +' added, total size ' + Object.keys(allClients).length)
-    client.broadcast.emit('msg','hello from ' + us.username);
+    console.log('SERVER: Client ' + client.id +' added, total size ' + Object.keys(allClients).length)
+    client.broadcast.emit('msg','hello from ' + us.username);  
 
-   
-    setInterval(CheckConnection,1000,'');
-
-
-
-
+   // setInterval(CheckConnection,1000,'');
   });
 })
 
