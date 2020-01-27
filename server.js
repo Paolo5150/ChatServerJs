@@ -1,8 +1,6 @@
 const server = require('http').createServer()
 const io = require('socket.io')(server)
 
-
-
 class User {
   constructor(id, username,socket) {
     this.id = id;
@@ -12,10 +10,18 @@ class User {
 }
 
 var allClients = new Object();
+var myArgs = process.argv.slice(2); //Remove first 2 args
+
+var PORT = 3000;
+
+if(myArgs.length == 1)
+{
+  PORT = myArgs[0];
+}
+
+console.log("Custom port detected: " + PORT);
 
 io.on('connection', function (client) {
-
-
   
   client.on('disconnect', function () {    
     console.log('SERVER: client disconnect...', allClients[client.id].username)
@@ -62,8 +68,8 @@ io.on('connection', function (client) {
   });
 })
 
-server.listen(3000, function (err) {
+server.listen(PORT, function (err) {
   if (err) throw err
-  console.log('SERVER: listening on port 3000')
+  console.log('SERVER: listening on port ' + PORT)
 })
 
