@@ -2,8 +2,8 @@ const io = require('socket.io-client')
 const Message = require('./message')
 var USERNAME;
 
-//const socket = io.connect('https://chata-serverjs.herokuapp.com/')
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('https://chata-serverjs.herokuapp.com/')
+//const socket = io.connect('http://localhost:3000');
 
 var myArgs = process.argv.slice(2); //Remove first 2 args
 
