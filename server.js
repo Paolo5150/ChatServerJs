@@ -1,6 +1,6 @@
 const User = require('./user')
 const Library = require('./library')
-const Message = require('./message')
+const fs = require('fs');
 
 var express = require('express'),
     app = express(),
@@ -22,6 +22,17 @@ if(myArgs.length == 1)
 
 PORT = process.env.PORT || PORT;
 console.log("Custom port detected: " + PORT);
+
+
+app.get('/', function (req, res) {
+  fs.readFile('public/index.html',function (err, data){
+    res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
+    res.write(data);
+    res.end();
+});
+  
+  console.log("Got a getW")
+})
 
 io.on(Library.CONNECTION_EVENT, function (client) {
 
