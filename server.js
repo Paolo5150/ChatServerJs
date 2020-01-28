@@ -34,7 +34,7 @@ app.get('/', function (req, res) {
 
 app.get('/hello', function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write(Object.keys(allClients).length);
+  res.write('Clients ' + Object.keys(allClients).length);
   res.end();
   
   console.log("Got a hello")
