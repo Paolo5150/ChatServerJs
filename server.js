@@ -23,15 +23,21 @@ if(myArgs.length == 1)
 PORT = process.env.PORT || PORT;
 console.log("Custom port detected: " + PORT);
 
-
 app.get('/', function (req, res) {
   fs.readFile('public/index.html',function (err, data){
     res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
     res.write(data);
     res.end();
 });
+
+})
+
+app.get('/hello', function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('dio porco');
+  res.end();
   
-  console.log("Got a getW")
+  console.log("Got a hello")
 })
 
 io.on(Library.CONNECTION_EVENT, function (client) {
@@ -47,6 +53,7 @@ io.on(Library.CONNECTION_EVENT, function (client) {
 
   client.on(Library.ERROR_EVENT, function (err) {
     console.log('SERVER: received error from client:', client.id)
+    
     console.log(err)
   })
 
