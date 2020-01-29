@@ -11,12 +11,26 @@ onIndex: function(req, res) {
     });
 },
 
-onHello: function(req, res, allClients) {
+onUsersRequest: function(req, res, allClients) {
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('Clients ' + Object.keys(allClients).length);
+
+    var result = "";
+
+    Object.keys(allClients).forEach(function(key) {
+        var val = allClients[key];
+        result += `
+        <tr>
+            <td>${val.id}</td>
+            <td>${val.username}</td>
+        </tr>
+        `
+      });
+
+
+    res.write(result);
     res.end();
     
-    console.log("Got a hello")
+    console.log("Got a user request")
 }
 
 

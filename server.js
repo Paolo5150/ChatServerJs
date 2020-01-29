@@ -30,8 +30,8 @@ app.get('/', function (req, res) {
 
 })
 
-app.get('/hello', function (req, res) {
-  requests.onHello(req,res, allClients)
+app.get('/users', function (req, res) {
+  requests.onUsersRequest(req,res, allClients)
 })  
 
 // Events
