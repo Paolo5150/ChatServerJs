@@ -14,7 +14,17 @@ onIndex: function(req, res) {
 onUsersRequest: function(req, res, allClients) {
     res.writeHead(200, {'Content-Type': 'text/html'});
 
-    var result = "";
+    var result = `
+    <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody id="usersTable">    
+    `;
 
     Object.keys(allClients).forEach(function(key) {
         var val = allClients[key];
@@ -26,7 +36,10 @@ onUsersRequest: function(req, res, allClients) {
         `
       });
 
-
+      result += `
+      </tbody>
+      </table>
+    </div>`
     res.write(result);
     res.end();
     

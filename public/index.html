@@ -33,20 +33,8 @@
           </div>
         </nav>
     
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">    
-          <h2>Online</h2>
-          <div class="table-responsive">
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Username</th>
-                </tr>
-              </thead>
-              <tbody id="usersTable">
-              </tbody>
-            </table>
-          </div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main">    
+
         </main>
       </div>
     </div>  
@@ -55,7 +43,7 @@
     setInterval(function(){ 
       
       $.get("http://localhost:3000/users", function(data, status){
-        $("#usersTable").html(data)
+        $("#main").html(data)
     });
     
     
