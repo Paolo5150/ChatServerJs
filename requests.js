@@ -15,6 +15,7 @@ onUsersRequest: function(req, res, allClients) {
     res.writeHead(200, {'Content-Type': 'text/html'});
 
     var result = `
+    <h2>Online</h2>
     <div class="table-responsive">
     <table class="table table-striped table-sm">
       <thead>
