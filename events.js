@@ -31,6 +31,18 @@ onMessageIn: function(client, allClients, msg) {
           
           //client.broadcast.emit('message','hello from ' + us.username); 
         }
+        else if(msgObj.type == 'join')
+        {
+            var idToJoin = msgObj.payload;
+
+            // Check that is valid room (client id)
+            var clientsInRoom = io.sockets.adapter.rooms[idToJoin].sockets;
+            if(Object.keys(clientsInRoom) > 0)
+            {
+                client.join(idToJoin);
+                console.log('Client ' + allClients[client.id].username + ' joined ' + allClients[idToJoin].username);
+            }
+        }
    
   
   

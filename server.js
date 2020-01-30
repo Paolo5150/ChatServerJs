@@ -24,6 +24,7 @@ if(myArgs.length == 1)
 PORT = process.env.PORT || PORT;
 console.log("Custom port detected: " + PORT);
 
+app.use(express.static('public'))
 // Http requests
 app.get('/', function (req, res) {
   requests.onIndex(req,res);
@@ -38,7 +39,7 @@ app.get('/users', function (req, res) {
 io.on(Library.CONNECTION_EVENT, function (client) {
 
   console.log('SERVER: someone connected, id: ' + client.id)
-  
+ 
   // Client disconnect
   client.on(Library.DISCONNECTION_EVENT, function () {    
     events.onClientDisconnect(client,allClients)

@@ -42,9 +42,8 @@ onUsersRequest: function(req, res, allClients) {
       </table>
     </div>`
     res.write(result);
-    res.end();
+    res.end();   
     
-    console.log("Got a user request")
 }
 
 
