@@ -23,11 +23,17 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="#onlineUsers">
                   <span data-feather="file"></span>
                   Users
                 </a>
               </li>  
+              <li class="nav-item">
+                <a class="nav-link" href="#test">
+                  <span data-feather="file"></span>
+                  Test
+                </a>
+              </li> 
             </ul>
             <ul class="nav flex-column mb-2">
 
@@ -35,15 +41,43 @@
           </div>
         </nav>
     
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main">    
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main"> 
+          <!-- Online Users-->   
+          <div id="onlineUsers">
+            <h2>Online</h2>
+            <div class="table-responsive" id="responseContent">
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTable">    
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Test-->   
+          <div id="test" style="display:none;">
+            <h2>Test</h2>
+            <div class="table-responsive" id="responseContent">
+              <h1>PORCODIO</h1>
+            </div>
+          </div>
+
+
+
 
         </main>
       </div>
     </div>  
 
   </body>
-
-  <script type="text/javascript" src="http://localhost:3000/scripts/users.js">
+  <script type="text/javascript" src="http://localhost:3000/scripts/window.js"></script>
+  <script type="text/javascript" src="http://localhost:3000/scripts/users.js"></script>
+  
 
   </script>
 </html>
