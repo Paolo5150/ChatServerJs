@@ -3,14 +3,16 @@ const User = require('./user')
 
 module.exports = {
 
-onClientDisconnect: function(client, allClients) {
+onClientDisconnect: function(client, allClientsById,allClientsByUsername) {
 
-    console.log('SERVER: client ' + allClients[client.id].username + ' disconnected' )
-    delete allClients[client.id]
-    console.log('SERVER: Client deleted, total size ' + Object.keys(allClients).length) 
+    console.log('SERVER: client ' + allClientsById[client.id].username + ' disconnected' )
+    delete allClientsByUsername[allClientsById[client.id].username]
+    delete allClientsById[client.id]
+    
+    console.log('SERVER: Client deleted, total size ' + Object.keys(allClientsById).length) 
 },
 
-onMessageIn: function(client, allClients, msg) {
+onMessageIn: function(client, allClientsById, allClientsByUsername,msg) {
     try {
         var msgObj = JSON.parse(msg);
         
@@ -24,10 +26,12 @@ onMessageIn: function(client, allClients, msg) {
           us.username = msgObj.payload;
           us.socket = client;
   
-          // Add to list
-          allClients[client.id] = us;
+          // Add to lists
+          allClientsById[client.id] = us;
+          allClientsByUsername[us.username] = us;
+
           
-          console.log('SERVER: Client ' + us.username+' added, total size ' + Object.keys(allClients).length)
+          console.log('SERVER: Client ' + us.username+' added, total size ' + Object.keys(allClientsById).length)
           
           //client.broadcast.emit('message','hello from ' + us.username); 
         }
@@ -40,11 +44,9 @@ onMessageIn: function(client, allClients, msg) {
             if(Object.keys(clientsInRoom) > 0)
             {
                 client.join(idToJoin);
-                console.log('Client ' + allClients[client.id].username + ' joined ' + allClients[idToJoin].username);
+                console.log('Client ' + allClientsById[client.id].username + ' joined ' + allClientsById[idToJoin].username);
             }
-        }
-   
-  
+        }  
   
     } catch (e) {
         console.log("SERVER: received a massege, but not JSON");

@@ -11,16 +11,16 @@ onIndex: function(req, res) {
     });
 },
 
-onUsersRequest: function(req, res, allClients) {
+onUsersRequest: function(req, res, allClientsById) {
     res.writeHead(200, {'Content-Type': 'text/html'});
 
     var usersArray = []
     var idArray = []
 
 
-    Object.keys(allClients).forEach(function(key) {
-        usersArray.push(allClients[key].username)
-        idArray.push(allClients[key].id)
+    Object.keys(allClientsById).forEach(function(key) {
+        usersArray.push(allClientsById[key].username)
+        idArray.push(allClientsById[key].id)
       });
     var result = {'usernames': usersArray}
     result['ids'] = idArray;

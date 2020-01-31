@@ -1,5 +1,16 @@
 const address = "http://localhost:3000/users"
 
+
+$( "#broadcastBtn" ).click(function() {
+
+  var message = $("#textArea").val();
+  $.post("http://localhost:3000/msg", {Request: message}, function(result){
+    $("#textArea").val("")
+
+  });
+  
+});
+
 setInterval(function(){ 
 
     $.get(address, function(data, status){
@@ -8,11 +19,13 @@ setInterval(function(){
       var result = ""
       if(dataObj.usernames == null || dataObj.usernames.length == 0)
         {
-
+            // Should display 'no users'?
+            $("#broadcastForm").hide();
         }
       else
         {
-         
+          // Display edit text for broadcasting from server
+          $("#broadcastForm").show();
           for (var i=0; i<dataObj.usernames.length; i++) {
 
             result += `         
