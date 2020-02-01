@@ -5,11 +5,16 @@ module.exports = {
 
 onClientDisconnect: function(client, allClientsById,allClientsByUsername) {
 
-    console.log('SERVER: client ' + allClientsById[client.id].username + ' disconnected' )
-    delete allClientsByUsername[allClientsById[client.id].username]
-    delete allClientsById[client.id]
-    
-    console.log('SERVER: Client deleted, total size ' + Object.keys(allClientsById).length) 
+    if(allClientsById[client.id] != undefined)
+    {
+
+        console.log('SERVER: client ' + allClientsById[client.id].username + ' disconnected' )
+        delete allClientsByUsername[allClientsById[client.id].username]
+        delete allClientsById[client.id]
+        
+        console.log('SERVER: Client deleted, total size ' + Object.keys(allClientsById).length)
+    }
+
 },
 
 onMessageIn: function(client, allClientsById, allClientsByUsername,msg) {
@@ -19,19 +24,44 @@ onMessageIn: function(client, allClientsById, allClientsByUsername,msg) {
         // Intro type: the user just connected and it's sending username
         if(msgObj.type === 'intro')
         {
-          // Create user
-          var us = new User(client.id);
-  
-          // Create additional variables
-          us.username = msgObj.payload;
-          us.socket = client;
-  
-          // Add to lists
-          allClientsById[client.id] = us;
-          allClientsByUsername[us.username] = us;
+            var username = msgObj.username;
 
-          
-          console.log('SERVER: Client ' + us.username+' added, total size ' + Object.keys(allClientsById).length)
+            // Check if client already connected
+            if(allClientsById[client.id] != undefined)
+            {
+                console.log('Client already connected!')
+            }
+            else if(allClientsByUsername[username] != undefined)
+            {
+                console.log('Username'  + username +' already taken!')
+
+                var msg = {'type' : 'intro-status', 'status' : 'fail', 'info':'Username already taken'}
+                client.emit('message',JSON.stringify(msg))
+            }
+            else{
+
+                // Username and client id accepteds
+
+                // Create user
+                var us = new User(client.id);
+        
+                // Create additional variables
+                us.username = msgObj.username;
+                us.socket = client;
+        
+                // Add to lists
+                allClientsById[client.id] = us;
+                allClientsByUsername[us.username] = us;
+                
+                console.log('SERVER: Added client')
+                console.log('\tUsername: ' + us.username)
+                console.log('\tId: ' + client.id)
+                console.log('SERVER: Total clients: ' + Object.keys(allClientsById).length)
+
+                var msg = {'type' : 'intro-status', 'status' : 'ok'}
+                client.emit('message',JSON.stringify(msg))
+          }
+  
           
           //client.broadcast.emit('message','hello from ' + us.username); 
         }

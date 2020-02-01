@@ -4,6 +4,7 @@ const fs = require('fs');
 const requests = require('./requests')
 const events = require('./events')
 const bodyParser = require("body-parser");
+const cors = require('cors');
 
 var express = require('express'),
     app = express(),
@@ -27,6 +28,11 @@ console.log("Custom port detected: " + PORT);
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
+
+
+// use it before all route definitions
+app.use(cors());
+
 // Http requests
 app.get('/', function (req, res) {
   requests.onIndex(req,res);
@@ -41,16 +47,18 @@ app.post('/msg',function(request,response){
   
   response.writeHead(200, {'Content-Type': 'text/html'});
 
-  io.emit('message',"SERVER: " + request.body.Request)
+  var msg = {'type' : 'server-message', 'payload' :request.body.Request }
+  io.emit('message', JSON.stringify(msg))
 
   response.end(); 
 
-  })  
+})  
+ 
 
 // Events
 io.on(Library.CONNECTION_EVENT, function (client) {
 
-  console.log('SERVER: someone connected, id: ' + client.id)
+  console.log('SERVER: someone is trying to connect, id: ' + client.id)
  
   // Client disconnect
   client.on(Library.DISCONNECTION_EVENT, function () {    
