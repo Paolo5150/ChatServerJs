@@ -10,7 +10,7 @@ $( "#broadcastBtn" ).click(function(e) {
 
 setInterval(function(){ 
 
-    $.get(ServerAddress, function(data, status){
+    $.get(ServerAddress + "/users", function(data, status){
 
       var dataObj = JSON.parse(data);
       var result = ""
