@@ -11,8 +11,14 @@ var express = require('express'),
     server = require('http').createServer(app);
     io = require('socket.io').listen(server);
 
+// Lists
 var allClientsById = new Object();
 var allClientsByUsername = new Object();
+
+
+
+
+
 
 var myArgs = process.argv.slice(2); //Remove first 2 args
 
@@ -28,7 +34,7 @@ console.log("Custom port detected: " + PORT);
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(express.json());       // to support JSON-encoded bodies
 
 // use it before all route definitions
 app.use(cors());
@@ -36,6 +42,30 @@ app.use(cors());
 // Http requests
 app.get('/', function (req, res) {
   requests.onIndex(req,res);
+})
+
+app.post('/userInfo', function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'})
+
+  var id = req.body.clientId
+
+  var reply = {"status" : "ok"};
+
+  if(allClientsById[id] != undefined)
+  {
+    var userObj = {"username" : allClientsById[id].username}
+    reply["payload"] = JSON.stringify(userObj)
+
+  }
+  else
+  {
+    reply["status"] = "fail"
+    reply["info"] = "Client not found"
+
+  }
+
+ res.write(JSON.stringify(reply))
+  res.end();
 
 })
 

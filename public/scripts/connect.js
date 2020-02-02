@@ -9,6 +9,8 @@ const socket = io.connect(ServerAddress, {
 
 socket.on('connect', function (err) {
     console.log('Connected')
+    var msg = {'type': 'intro', 'username' : 'server'}
+    socket.emit('message',JSON.stringify(msg))
 
 
   })

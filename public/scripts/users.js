@@ -24,13 +24,14 @@ setInterval(function(){
           // Display edit text for broadcasting from server
           $("#broadcastForm").show();
           for (var i=0; i<dataObj.usernames.length; i++) {
+            if(dataObj.usernames[i] == 'server') continue;
 
             result += `         
             <a href="#">
             <tr>
               <td>${dataObj.ids[i]} </td>
               <td>${dataObj.usernames[i]}</td>     
-              <td><a href="#">Chatlink</a></td>              
+              <td><button type="button" class="ChatLink btn btn-link" id="${dataObj.ids[i]}" onClick="OnChatLinkClicked(this.id)">Chat</button></td>              
 
             </tr>
             </a>`

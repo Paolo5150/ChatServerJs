@@ -46,16 +46,55 @@ onMessageIn: function(client, allClientsById, allClientsByUsername,msg) {
           
           //client.broadcast.emit('message','hello from ' + us.username); 
         }  
-        else if(msgObj.type === 'message')
-        {
-            console.log(msgObj.payload)
-        }
         else if(msgObj.type === 'server-broadcast')
         {
             console.log("Broadcasting")
             console.log(msgObj.payload)
-            var broad = {"type" : "server-message", "payload" : msgObj.payload}
+            var broad = {"type" : "server-broadcast", "payload" : msgObj.payload}
             io.emit('message', JSON.stringify(broad))
+        }
+        else if(msgObj.type === 'chat-message')
+        {
+            console.log("From " + msgObj.from)
+            console.log("To " + msgObj.to)
+            console.log("Payload " + msgObj.payload)
+
+           // var txt = {"type" : "chat-message", "from" : msgObj.from, "payload":msgObj.payload}
+
+            if(allClientsById[msgObj.to]['conversationWith']== undefined)
+            {
+                allClientsById[msgObj.to]['conversationWith'] = {}
+            }
+
+            if(allClientsById[msgObj.from]['conversationWith']== undefined)
+            {
+                allClientsById[msgObj.from]['conversationWith'] = {}
+            }
+            
+            if(allClientsById[msgObj.from]['conversationWith'][msgObj.to]== undefined)
+            {
+                allClientsById[msgObj.from]['conversationWith'][msgObj.to] = []
+            }
+
+            if(allClientsById[msgObj.to]['conversationWith'][msgObj.from]== undefined)
+            {
+                allClientsById[msgObj.to]['conversationWith'][msgObj.from] = []
+            }
+
+            var fromMessage = {"type" : "sent", "payload": msgObj.payload}
+            var toMessage = {"type" : "received", "payload": msgObj.payload}
+
+
+            allClientsById[msgObj.from]['conversationWith'][msgObj.to].push(fromMessage)
+            allClientsById[msgObj.to]['conversationWith'][msgObj.from].push(toMessage)
+
+            var messageObjTo= {"type" : "chat-message", "from" : msgObj.from, "to" : msgObj.to, "payload" : JSON.stringify(allClientsById[msgObj.to]['conversationWith'][msgObj.from])}
+            var messageObjFrom= {"type" : "chat-message", "from" : msgObj.from, "to" : msgObj.to, "payload" : JSON.stringify(allClientsById[msgObj.from]['conversationWith'][msgObj.to])}
+
+            io.to(`${msgObj.to}`).emit('message', JSON.stringify(messageObjTo));
+            io.to(`${msgObj.from}`).emit('message', JSON.stringify(messageObjFrom));
+
+
         }
   
     } catch (e) {

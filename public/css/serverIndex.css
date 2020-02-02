@@ -4,3 +4,36 @@
     bottom: 0;
     width: 70%;
 }
+
+#chatForm {
+
+    bottom: 0;
+    width: 100%;
+    background-color: bisque;
+
+}
+
+.modelBody {
+    height: 80%;;
+}
+
+#chatScroll
+{
+
+    background-color: aqua;
+    width: 100%;
+    box-decoration-break: green;
+    overflow: scroll;
+    scrollbar-base-color: aliceblue;
+    height: 400px;
+
+}
+
+.chatBubble
+{
+    padding: 2px;
+    margin-left: 5%;
+    margin-top: 0%;
+    margin-right: 5%;
+    clear: both;
+}
