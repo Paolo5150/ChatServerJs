@@ -39,8 +39,37 @@ onMessageIn: function(client, allClientsById, allClientsByUsername,msg) {
                 client.emit('message',JSON.stringify(msg))
             }
             else{
-
                 // Username and client id accepteds
+                AddUser(msgObj,client,allClientsById,allClientsByUsername)
+          }
+  
+          
+          //client.broadcast.emit('message','hello from ' + us.username); 
+        }  
+        else if(msgObj.type === 'message')
+        {
+            console.log(msgObj.payload)
+        }
+        else if(msgObj.type === 'server-broadcast')
+        {
+            console.log("Broadcasting")
+            console.log(msgObj.payload)
+            var broad = {"type" : "server-message", "payload" : msgObj.payload}
+            io.emit('message', JSON.stringify(broad))
+        }
+  
+    } catch (e) {
+        console.log("SERVER: received a massege, but not JSON");
+        console.log("SERVER: " + JSON.stringify(msg));
+    }
+  
+}
+
+}
+
+function AddUser(msgObj,client,allClientsById,allClientsByUsername )
+{
+      // Username and client id accepteds
 
                 // Create user
                 var us = new User(client.id);
@@ -60,32 +89,6 @@ onMessageIn: function(client, allClientsById, allClientsByUsername,msg) {
 
                 var msg = {'type' : 'intro-status', 'status' : 'ok'}
                 client.emit('message',JSON.stringify(msg))
-          }
-  
-          
-          //client.broadcast.emit('message','hello from ' + us.username); 
-        }
-        else if(msgObj.type == 'join')
-        {
-            var idToJoin = msgObj.payload;
-
-            // Check that is valid room (client id)
-            var clientsInRoom = io.sockets.adapter.rooms[idToJoin].sockets;
-            if(Object.keys(clientsInRoom) > 0)
-            {
-                client.join(idToJoin);
-                console.log('Client ' + allClientsById[client.id].username + ' joined ' + allClientsById[idToJoin].username);
-            }
-        }  
-  
-    } catch (e) {
-        console.log("SERVER: received a massege, but not JSON");
-        console.log("SERVER: " + JSON.stringify(msg));
-    }
-  
-}
-
-
 }
 
 

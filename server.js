@@ -43,16 +43,6 @@ app.get('/users', function (req, res) {
   requests.onUsersRequest(req,res, allClientsById)
 })  
 
-app.post('/msg',function(request,response){
-  
-  response.writeHead(200, {'Content-Type': 'text/html'});
-
-  var msg = {'type' : 'server-message', 'payload' :request.body.Request }
-  io.emit('message', JSON.stringify(msg))
-
-  response.end(); 
-
-})  
  
 
 // Events

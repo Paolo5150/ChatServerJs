@@ -1,13 +1,12 @@
 const address = "http://localhost:3000/users"
 
 
-$( "#broadcastBtn" ).click(function() {
+$( "#broadcastBtn" ).click(function(e) {
 
-  var message = $("#textArea").val();
-  $.post("http://localhost:3000/msg", {Request: message}, function(result){
-    $("#textArea").val("")
-
-  });
+  e.preventDefault()
+  var msg = {"type" : "server-broadcast", "payload" : $("#textArea").val()}
+  socket.emit("message",JSON.stringify(msg))
+  $("#textArea").val("")
   
 });
 
@@ -29,10 +28,14 @@ setInterval(function(){
           for (var i=0; i<dataObj.usernames.length; i++) {
 
             result += `         
+            <a href="#">
             <tr>
-              <td>${dataObj.ids[i]}</td>
-              <td>${dataObj.usernames[i]}</td>
-            </tr>`
+              <td>${dataObj.ids[i]} </td>
+              <td>${dataObj.usernames[i]}</td>     
+              <td><a href="#">Chatlink</a></td>              
+
+            </tr>
+            </a>`
 
         }
       }
