@@ -47,13 +47,24 @@ app.get('/', function (req, res) {
 app.post('/userInfo', function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'})
 
-  var id = req.body.clientId
+  var id = req.body.otherId
 
   var reply = {"status" : "ok"};
 
   if(allClientsById[id] != undefined)
   {
     var userObj = {"username" : allClientsById[id].username}
+
+    if(allClientsById[req.body.requesterId]['conversationWith'] != undefined)
+    {
+      if(allClientsById[req.body.requesterId]['conversationWith'][id] != undefined)
+      {
+        userObj['history'] = allClientsById[req.body.requesterId]['conversationWith'][id]
+      }
+    }
+
+
+
     reply["payload"] = JSON.stringify(userObj)
 
   }
