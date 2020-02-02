@@ -1,5 +1,3 @@
-const address = "http://localhost:3000/users"
-
 
 $( "#broadcastBtn" ).click(function(e) {
 
@@ -12,7 +10,7 @@ $( "#broadcastBtn" ).click(function(e) {
 
 setInterval(function(){ 
 
-    $.get(address, function(data, status){
+    $.get(ServerAddress, function(data, status){
 
       var dataObj = JSON.parse(data);
       var result = ""
